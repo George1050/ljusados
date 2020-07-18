@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>QuincasNordestino - Pagina do Administrador</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href='<c:url value="/resources/static/css/style.css" />' />
+</head>
+<body>
+<main>
+    <header>
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="#">
+                <h4><strong class="minha-fonte">Quincas</strong>Nordestino</h4>
+            </a>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+            </form>
+        </nav>
+    </header>
+    <section class="container-fluid">
+        <div class="d-flex justify-content-between meus-titulos">
+            <h1><strong>#</strong>Produtos no Sistema</h1>
+            <a href="/cadastrar" ><button class="btn btn-primary">Cadastrar</button></a>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Preço</th>
+                <th scope="col">Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="produto: ${produtoList}">
+                <th scope="row" th:text="${produto.getId()}">id</th>
+                <td th:text="${produto.getNome()}">nome</td>
+                <td th:text="${produto.getEstado()}">estado</td>
+                <td th:text="${produto.getCategoria()}">categoria</td>
+                <td th:text="${produto.getDescricao()}">descricao</td>
+                <td th:text="${produto.getPreco()}">preco</td>
+                <td class="d-flex justify-content-between">
+                    <a class="btn btn-warning" th:href="@{'/alterar/'+${produto.getId()}}">Alterar</a>
+                    <a class="btn btn-danger" th:href="@{'/remover/'+${produto.getId()}}">Remover</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+</body>
+</html>

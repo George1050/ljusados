@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>QuincasNordestino</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href='<c:url value="/static/css/style.css" />' />
+</head>
+<body>
+<main>
+    <header>
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="/adm">
+                <h4><strong class="minha-fonte">Quincas</strong>Nordestino</h4>
+            </a>
+        </nav>
+    </header>
+    <section>
+        <div class="container meus-titulos">
+            <h1><strong>#</strong>Alterar os Dados do Produto</h1>
+        </div>
+        <div class="container">
+            <form action="#" th:action="@{/salvar}" method="post" th:object="${produto}">
+                <input type="text" th:field="*{id}" readonly th:value="*{id}" class="d-none"/>
+                <div class="form-row">
+                    <div class="col">
+                        <input
+                                class="form-control"
+                                th:field="*{nome}"
+                                type="text"
+                                name="nome"
+                                placeholder="Nome do Produto"
+                                id="exampleInputEmail1"
+                                aria-describedby="emailHelp"
+                        />
+                    </div>
+                    <div class="col">
+                        <input class="form-control" type="text" placeholder="Url da Imagem" th:field="*{urlImagem}"/>
+                    </div>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div class="col">
+                        Estado:
+                        <select class="form-control" name="estado" th:field="*{estado}">
+                            <option value=""></option>
+                            <option value="ótimo">Ótimo</option>
+                            <option value="bom">Bom</option>
+                            <option value="regular">Regular</option>
+                            <option value="ruim">Ruim</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        Categoria:
+                        <select class="form-control" name="categoria" th:field="*{categoria}">
+                            <option value=""></option>
+                            <option value="auto e peças">Auto e Peças</option>
+                            <option value="casa">Casa</option>
+                            <option value="eletrônicos">Eletronicos</option>
+                            <option value="hobbies">Hobbies</option>
+                            <option value="escritório">Escritório</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <input class="form-control" placeholder="Preço" type="text" th:field="*{preco}">
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <textarea
+                            th:field="*{descricao}"
+                            name="descricao"
+                            class="form-control"
+                            rows="3"
+                            placeholder="Descrição do Produto"
+                    ></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success">Enviar</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+</body>
+</html>
