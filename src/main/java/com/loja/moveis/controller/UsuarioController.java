@@ -3,13 +3,17 @@ package com.loja.moveis.controller;
 import com.loja.moveis.model.Produto;
 import com.loja.moveis.model.Usuario;
 import com.loja.moveis.service.UsuarioService;
+import org.dom4j.rule.Mode;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,7 +21,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -39,11 +45,29 @@ public class UsuarioController {
     }
 
     @RequestMapping(value = "/salvarUsuario", method = RequestMethod.POST)
-    public String addUsuario(@ModelAttribute Usuario usuario){
-        if(usuario == null) {
-            return "addusuario";
+    public ModelAndView addUsuario(@Valid @ModelAttribute Usuario usuario, BindingResult bindingResult){
+        ModelAndView modelAndView = new ModelAndView("redirect:/");
+        if(bindingResult.hasErrors()) {
+            modelAndView.setViewName("addusuario");
+            modelAndView.addObject("usuario",usuario);
+            return modelAndView;
         }
         usuarioService.add(usuario);
+        return modelAndView;
+    }
+
+    @RequestMapping("/alterarConta/{id}")
+    public ModelAndView alterarConta(@PathVariable(name = "id") Long id){
+        ModelAndView modelAndView = new ModelAndView("cadastrar");
+        var usuario = usuarioService.get(id);
+
+        modelAndView.addObject("usuario", usuario);
+        return modelAndView;
+    }
+
+    @RequestMapping("/apagarConta/{id}")
+    public String apagarConta(@PathVariable(name = "id") Long id){
+        usuarioService.remover(id);
         return "redirect:/";
     }
 
@@ -61,29 +85,30 @@ public class UsuarioController {
     @RequestMapping(value = "/validarLogin", method = RequestMethod.POST)
     public String validarLogin(@ModelAttribute Usuario usuario, HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
-        Cookie cookie = new Cookie("login", usuario.getLogin());
         if (session.getAttribute("id") == null) {
             var usuarioVerificado = usuarioService.findByLoginAndPassword(usuario.getLogin(), usuario.getSenha());
-            if(usuarioVerificado.getId() == null){
+            if(usuarioVerificado == null){
                 response.setStatus(400);
-                return "/login";
+                return "login";
             }
+            session.setAttribute("login", usuario.getLogin());
             session.setAttribute("id", usuarioVerificado.getId());
-            response.addCookie(cookie);
             response.setStatus(200);
             if(usuarioVerificado.getAcesso() == true){
-                System.out.println("adm");
+                session.setAttribute("acesso", usuarioVerificado.getAcesso());
                 return "redirect:/adm";
             }
 
         }
-        System.out.println("user");
-        return "/";
+        return "redirect:/";
     }
 
     @RequestMapping("/logout")
-    public String logoutSistema(HttpServletRequest request){
+    public String logoutSistema(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
+        Calendar c = Calendar.getInstance();
+        String data = "Ultimo Acesso"+c.getTime();
+        System.out.println(data);
         session.invalidate();
         return "redirect:/";
     }

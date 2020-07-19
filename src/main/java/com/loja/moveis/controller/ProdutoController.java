@@ -7,10 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +34,11 @@ public class ProdutoController {
     }
     //lembrar de juntar essas funções
     @RequestMapping("/adm")
-    public String getAdm(Model model) {
+    public String getAdm(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if(session.getAttribute("acesso") == null){
+            return "redirect:/";
+        }
         List<Produto> produtoList = produtoService.findAll();
         model.addAttribute("produtoList", produtoList);
         return "adm";
@@ -53,18 +54,16 @@ public class ProdutoController {
     @RequestMapping(value = "/salvar", method = RequestMethod.POST)
     public ModelAndView addProduto(@Valid @ModelAttribute Produto produto, BindingResult bindingResult){
         ModelAndView modelAndView;
-        produto.setEstoque(true);
-
-        if(bindingResult.hasErrors()){
+        //Testa se esta vindo de cadastrar e se possue erros
+        if(produto.getId() == null && bindingResult.hasErrors()) {
             modelAndView = new ModelAndView("cadastrar");
             modelAndView.addObject("produto", produto);
-
-            List<String> msg = new ArrayList<>();
-            for (ObjectError objectError:bindingResult.getAllErrors()) {
-                msg.add(objectError.getDefaultMessage());
-            }
-
-            modelAndView.addObject("msg", msg);
+            return modelAndView;
+        }
+        //Testa se esta vindo de alterar e se possue erros
+        if(bindingResult.hasErrors()){
+            modelAndView = new ModelAndView("redirect:/alterar/"+produto.getId());
+            modelAndView.addObject("produto", produto);
             return modelAndView;
         }
         modelAndView = new ModelAndView("redirect:/adm");

@@ -42,7 +42,7 @@
             <div class="container">
                 <h2 class="text-white">
                     <strong class="text-danger">#</strong>
-                    <strong> Produtos no Sistema</strong>
+                    <strong>Cadastar Produto</strong>
                 </h2>
                 <form class="" action="#" th:action="@{/salvar}" method="post" th:object="${produto}">
                     <div class="form-row">
@@ -90,6 +90,14 @@
                             <strong class="text-light">R$</strong>
                             <input class="form-control" placeholder="Preço" type="text" th:field="*{preco}">
                             <p class="text-danger" th:if="${#fields.hasErrors('preco')}" th:errors="*{preco}">Mensagem</p>
+                        </div>
+                        <div class="col">
+                            <strong class="text-light">Estoque:</strong>
+                            <select class="form-control" name="estoque" th:field="*{estoque}">
+                                <option value=true>Ativo</option>
+                                <option value=false>Desativo</option>
+                            </select>
+                            <p class="text-danger" th:if="${#fields.hasErrors('estoque')}" th:errors="*{estoque}">Mensagem</p>
                         </div>
                     </div>
                     <br />

@@ -7,9 +7,7 @@ import com.loja.moveis.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +37,6 @@ public class CompraController {
         HttpSession session = request.getSession();
         Produto produto = (Produto) session.getAttribute("tempProduto");
 
-        //
         List<Produto> produtoList = (ArrayList<Produto>) session.getAttribute("carrinho");
 
         if (produtoList == null){
@@ -54,11 +51,22 @@ public class CompraController {
         }
         session.setAttribute("carrinho", produtoList);
 
-        model.addAttribute("lista", produtoList);
-
         return "carrinho";
     }
 
+    @RequestMapping("/removerCarrinho/{id}")
+    public String removerProduto(@PathVariable(name = "id") Long id, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        List<Produto> carrinho = (List<Produto>) session.getAttribute("carrinho");
+        for (var i:carrinho) {
+            if(i.getId() == id){
+                carrinho.remove(i);
+                session.setAttribute("carrinho", carrinho);
+                break;
+            }
+        }
+        return "carrinho";
+    }
     @RequestMapping("/finalizarCompra")
     public String finalizarCompra(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
@@ -72,11 +80,6 @@ public class CompraController {
         }
 
         List<Produto> carrinho = ((List<Produto>) session.getAttribute("carrinho"));
-        if(carrinho == null) {
-            response.setStatus(400);
-            System.out.println("Carrinho nulo");
-            return "redirect:/";
-        }
         for (var i:carrinho) {
             Compra compra = new Compra(i.getId(), i.getPreco(), data, id_usuario, false);
             i.setEstoque(false);

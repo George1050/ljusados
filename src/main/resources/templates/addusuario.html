@@ -2,58 +2,135 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>QuincasNordestino - Cadastrar Úsuario</title>
+    <title>QuincasNordestino - Cadastro de Úsuario</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
-    <main>
+    <main class="bg-dark">
         <header>
             <nav class="navbar navbar-light bg-light">
-                <a class="navbar-brand" href="/">
-                    <h4><strong class="minha-fonte">Quincas</strong>Nordestino</h4>
+                <a class="navbar-brand" href="#">
+                    <h4><strong class="text-danger">Quincas</strong>Nordestino</h4>
                 </a>
+                <div th:if="${session.id} == null">
+                    <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Feather-core-user-x.svg/1200px-Feather-core-user-x.svg.png"
+                            width="40"
+                            height="40"
+                    >
+                    <br/>
+                    <a th:href="@{login}">Entrar</a>
+                </div>
+                <div th:if="${session.id} != null">
+                    <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Feather-core-user-check.svg/1200px-Feather-core-user-check.svg.png"
+                            width="40"
+                            height="40"
+                    >
+                    <br/>
+                    <a th:href="@{logout}">Sair</a>
+                </div>
             </nav>
         </header>
-        <section>
-            <div class="container meus-titulos">
-                <h1><strong>#</strong>Cadastrar Novo Usuario</h1>
+        <section class="container mt-3">
+            <div class="container mb-3">
+                <div class="d-flex justify-content-between meus-titulos">
+                    <h2 class="text-white">
+                        <strong class="text-danger">#</strong>
+                        Cadastro de Usuario
+                    </h2>
+                </div>
             </div>
-            <br />
             <div class="container">
                 <form class="" action="#" th:action="@{/salvarUsuario}" method="post" th:object="${usuario}">
                     <div class="form-row">
                         <div class="col">
                             <input class="form-control" type="text" th:field="*{login}" placeholder="Login">
+                            <p class="text-danger" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Mensagem</p>
                         </div>
                         <div class="col">
-                            <input class="form-control" type="text" th:field="*{senha}" placeholder="Senha">
+                            <input class="form-control" type="password" th:field="*{senha}" placeholder="Senha">
+                            <p class="text-danger" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}">Mensagem</p>
                         </div>
                     </div>
                     <br />
                     <div class="form-group">
                         <input class="form-control" type="email" th:field="*{email}" placeholder="E-mail">
+                        <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Mensagem</p>
                     </div>
                     Endereço:
                     <div class="form-row">
 
                         <div class="col">
                             <input class="form-control" type="text" th:field="*{rua}" placeholder="Rua">
+                            <p class="text-danger" th:if="${#fields.hasErrors('rua')}" th:errors="*{rua}">Mensagem</p>
                         </div>
                         <div class="col">
                             <input class="form-control" type="text" th:field="*{bairro}" placeholder="Bairro">
+                            <p class="text-danger" th:if="${#fields.hasErrors('bairro')}" th:errors="*{bairro}">Mensagem</p>
                         </div>
                         <div class="col">
                             <input class="form-control" type="number" th:field="*{numero}" placeholder="Número">
+                            <p class="text-danger" th:if="${#fields.hasErrors('numero')}" th:errors="*{numero}">Mensagem</p>
                         </div>
                     </div>
                     <br />
                     <div class="d-flex justify-content-between">
                         <button class="btn btn-primary" type="submit">Enviar</button>
-                        <button class="btn btn-secondary" type="reset">Apagar</button>
                     </div>
                 </form>
             </div>
         </section>
+        <br />
+        <footer class="container-fluid bg-light">
+            <div class="row">
+                <div class="col-4 mt-3">
+                    <div class="imagem">
+                        <img
+                                src="https://http2.mlstatic.com/resources/frontend/homes-korriban/assets/images/ecosystem/payment.svg"
+                                class="img-thumbnail"
+                                alt=" "
+                        >
+                    </div>
+                    <h4 class="text-center" style="color: black">Pague com cartão de crédito ou boleto</h4>
+                    <p class="text-center" style="color: gray; font-size: 1rem">
+                        Com o Mercado Pago você paga parcelado sem juros ou à vista no boleto. É sempre seguro!
+                    </p>
+                </div>
+                <div class="col-4 mt-3">
+                    <div class="imagem">
+                        <img
+                                src="https://http2.mlstatic.com/resources/frontend/homes-korriban/assets/images/ecosystem/shipping.svg"
+                                class="img-thumbnail"
+                                alt=" "
+                        >
+                    </div>
+                    <h4 class="text-center" style="color: black">Frete grátis a partir de R$ 120</h4>
+                    <p class="text-center" style="color: gray; font-size: 1rem">
+                        Só por estar cadastrado no Mercado Livre, você tem frete grátis em milhares de produtos. É um benefício do Mercado Pontos.
+                    </p>
+                </div>
+                <div class="col-4 mt-3">
+                    <div class="imagem">
+                        <img
+                                src="https://http2.mlstatic.com/resources/frontend/homes-korriban/assets/images/ecosystem/protected.svg"
+                                class="img-thumbnail"
+                                alt=" "
+                        >
+                    </div>
+                    <h4 class="text-center" style="color: black">Segurança, do início ao fim</h4>
+                    <p class="text-center" style="color: gray; font-size: 1rem">
+                        Você não gostou do que comprou? Devolva! No Mercado Livre não há nada que você não possa fazer, porque você está sempre protegido.
+                    </p>
+                </div>
+            </div>
+            <address class="text-center border-top">
+                <p>
+                    Criado por George Ravelly - <a href="https://github.com/George1050" target="blank">GitHub</a><br />
+                    <small style="font-size:0.9rem; color: gray">Imagens meramente ilustrativas!!!</small>
+                </p>
+            </address>
+        </footer>
     </main>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

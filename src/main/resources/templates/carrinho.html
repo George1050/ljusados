@@ -14,7 +14,7 @@
 <body>
     <header>
         <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" th:href="@{/}">
                 <h4><strong class="text-danger">Quincas</strong>Nordestino</h4>
             </a>
         </nav>
@@ -34,10 +34,14 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="i: ${lista}">
+            <tr th:each="i: ${session.carrinho}">
                 <th scope="row" th:text="${i.id}">id</th>
                 <td th:text="${i.nome}">nome</td>
                 <td th:text="${i.preco}">preco</td>
+                <td>
+                    <a class="btn btn-warning" th:href="@{'/removerCarrinho/'+${i.id}}">Remover</a>
+                </td>
+
             </tr>
             <tr>
                 <th scope="col">Total</th>

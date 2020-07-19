@@ -67,17 +67,11 @@
                         <strong class="text-danger">#</strong>
                         Compra logo
                         <strong
-                                th:with="cookie = ${#request.cookies}"
-                                th:each="i : ${cookie}"
-                                th:if="${i.getName().equals('login')}"
+                                th:if="${session.login} != null"
                         >
-                            <span th:text="${i.getValue()+','}">Login</span>
+                            <span th:text="${session.login}+', '">Login</span>
                         </strong> que tá barato!!!
                     </h2>
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
-                        <button class="btn btn-outline-danger" type="submit">Pesquisar</button>
-                    </form>
                 </div>
             </section>
             <div class="row">

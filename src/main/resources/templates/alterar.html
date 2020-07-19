@@ -46,6 +46,7 @@
             </h2>
             <form class="" action="#" th:action="@{/salvar}" method="post" th:object="${produto}">
                 <div class="form-row">
+                    <input type="text" th:field="*{id}" class="d-none"/>
                     <div class="col">
                         <input
                                 class="form-control"
