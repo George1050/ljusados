@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -29,6 +33,7 @@ public class ProdutoController {
         model.addAttribute("produtoList", produtoList);
         return "index";
     }
+    //lembrar de juntar essas funções
     @RequestMapping("/adm")
     public String getAdm(Model model) {
         List<Produto> produtoList = produtoService.findAll();
@@ -65,6 +70,16 @@ public class ProdutoController {
     public String removerProduto(@PathVariable(name = "id") Long id){
         produtoService.remover(id);
         return "redirect:/adm";
+    }
+
+    @RequestMapping("/produto/{id}")
+    public ModelAndView infoProduto(@PathVariable(name = "id") Long id, HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView("produto");
+        var produto = produtoService.get(id);
+        HttpSession session = request.getSession();
+        session.setAttribute("tempProduto", produto);
+        modelAndView.addObject("produto", produto);
+        return modelAndView;
     }
 
 }

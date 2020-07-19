@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>QuincasNordestino</title>
+</head>
+<body>
+    <div>
+        <div class="alert alert-primary" role="alert">
+            A simple primary alert—check it out!
+        </div>
+        <a href="/">Voltar</a>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Preço</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="i: ${lista}">
+                <th scope="row" th:text="${i.id}">id</th>
+                <td th:text="${i.nome}">nome</td>
+                <td th:text="${i.preco}">preco</td>
+            </tr>
+            <tr>
+                <th scope="col">Total</th>
+                <td>total</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

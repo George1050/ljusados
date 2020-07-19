@@ -10,9 +10,10 @@ import java.util.List;
 @Service
 public class UsuarioService{
 
-    @Autowired
+
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
     public void setUsuarioRepository(UsuarioRepository usuarioRepository){
         this.usuarioRepository = usuarioRepository;
     }
@@ -25,6 +26,12 @@ public class UsuarioService{
             }
         }
         return null;
+    }
+
+    public String findById(Long id){
+        Usuario usuario = usuarioRepository.getOne(id);
+        String endereco = usuario.getRua()+ "," + usuario.getBairro() + "," + usuario.getNumero();
+        return endereco;
     }
 
     public void add(Usuario usuario){

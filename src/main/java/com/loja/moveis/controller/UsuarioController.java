@@ -1,5 +1,6 @@
 package com.loja.moveis.controller;
 
+import com.loja.moveis.model.Produto;
 import com.loja.moveis.model.Usuario;
 import com.loja.moveis.service.UsuarioService;
 import org.hibernate.Session;
@@ -10,9 +11,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Controller
 public class UsuarioController {
@@ -73,4 +80,5 @@ public class UsuarioController {
         session.invalidate();
         return "redirect:/";
     }
+
 }
