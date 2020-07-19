@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-Br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>QuincasNordestino</title>
+    <title>QuincasNordestino - Home</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <style>
         .produto{
@@ -32,9 +32,6 @@
         }
 
     </style>
-    <script>
-        feather.replace()
-    </script>
 </head>
 <body>
     <main class="bg-dark">
@@ -43,12 +40,40 @@
                 <a class="navbar-brand" href="#">
                     <h4><strong class="text-danger">Quincas</strong>Nordestino</h4>
                 </a>
+                <div th:if="${session.id} == null">
+                    <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Feather-core-user-x.svg/1200px-Feather-core-user-x.svg.png"
+                        width="40"
+                        height="40"
+                    >
+                    <br/>
+                    <a th:href="@{login}">Entrar</a>
+                </div>
+                <div th:if="${session.id} != null">
+                    <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Feather-core-user-check.svg/1200px-Feather-core-user-check.svg.png"
+                            width="40"
+                            height="40"
+                    >
+                    <br/>
+                    <a th:href="@{logout}">Sair</a>
+                </div>
             </nav>
         </header>
         <section class="container mt-3">
             <section class="container mb-3">
                 <div class="d-flex justify-content-between meus-titulos">
-                    <h2 class="text-white"><strong class="text-danger">#</strong>Compra logo que tá barato!!!</h2>
+                    <h2 class="text-white">
+                        <strong class="text-danger">#</strong>
+                        Compra logo
+                        <strong
+                                th:with="cookie = ${#request.cookies}"
+                                th:each="i : ${cookie}"
+                                th:if="${i.getName().equals('login')}"
+                        >
+                            <span th:text="${i.getValue()+','}">Login</span>
+                        </strong> que tá barato!!!
+                    </h2>
                     <form class="form-inline my-2 my-lg-0">
                         <input class="form-control" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
                         <button class="btn btn-outline-danger" type="submit">Pesquisar</button>
@@ -56,7 +81,7 @@
                 </div>
             </section>
             <div class="row">
-                <div class="col-4" th:each="produto : ${produtoList}">
+                <div class="col-4" th:each="produto : ${produtoList}" th:if="${produto.estoque} == true">
                     <a th:href="@{'/produto/'+${produto.getId()}}" class="link">
                         <div class="card produto" style="width: 18rem;">
                             <div class="url-imagem">

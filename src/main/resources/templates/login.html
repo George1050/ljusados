@@ -11,8 +11,26 @@
         <header>
             <nav class="navbar navbar-light bg-light">
                 <a class="navbar-brand" href="#">
-                    <h4><strong class="minha-fonte">Quincas</strong>Nordestino</h4>
+                    <h4><strong class="text-danger">Quincas</strong>Nordestino</h4>
                 </a>
+                <div th:if="${session.id} == null">
+                    <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Feather-core-user-x.svg/1200px-Feather-core-user-x.svg.png"
+                            width="40"
+                            height="40"
+                    >
+                    <br/>
+                    <a th:href="@{login}">Entrar</a>
+                </div>
+                <div th:if="${session.id} != null">
+                    <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Feather-core-user-check.svg/1200px-Feather-core-user-check.svg.png"
+                            width="40"
+                            height="40"
+                    >
+                    <br/>
+                    <a th:href="@{logout}">Sair</a>
+                </div>
             </nav>
         </header>
         <section>
@@ -33,6 +51,7 @@
                     <br/>
                     <button class="btn btn-primary">Entrar</button>
                 </form>
+                <small>Para se cadastrar <a th:href="@{addusuario}">Clique aqui!</a></small>
             </div>
 
         </section>

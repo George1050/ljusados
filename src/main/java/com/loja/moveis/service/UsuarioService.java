@@ -18,11 +18,12 @@ public class UsuarioService{
         this.usuarioRepository = usuarioRepository;
     }
 
-    public Long findByLoginAndPassword(String login, String senha){
+    public Usuario findByLoginAndPassword(String login, String senha){
         List<Usuario> usuarioList = findAll();
+
         for (var i:usuarioList) {
             if(i.getLogin().equals(login) && i.getSenha().equals(senha)){
-                return i.getId();
+                return i;
             }
         }
         return null;

@@ -17,5 +17,6 @@ public class Compra {
     Double preco;
     String data;
     Long id_cliente;
+    Boolean status;
 
 }

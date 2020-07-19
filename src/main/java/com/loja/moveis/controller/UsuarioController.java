@@ -61,20 +61,27 @@ public class UsuarioController {
     @RequestMapping(value = "/validarLogin", method = RequestMethod.POST)
     public String validarLogin(@ModelAttribute Usuario usuario, HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
+        Cookie cookie = new Cookie("login", usuario.getLogin());
         if (session.getAttribute("id") == null) {
-            var id = usuarioService.findByLoginAndPassword(usuario.getLogin(), usuario.getSenha());
-            if(id == null){
+            var usuarioVerificado = usuarioService.findByLoginAndPassword(usuario.getLogin(), usuario.getSenha());
+            if(usuarioVerificado.getId() == null){
                 response.setStatus(400);
                 return "/login";
             }
-            session.setAttribute("id", id);
+            session.setAttribute("id", usuarioVerificado.getId());
+            response.addCookie(cookie);
             response.setStatus(200);
+            if(usuarioVerificado.getAcesso() == true){
+                System.out.println("adm");
+                return "redirect:/adm";
+            }
 
         }
-        return "redirect:/";
+        System.out.println("user");
+        return "/";
     }
 
-    @RequestMapping("/Logout")
+    @RequestMapping("/logout")
     public String logoutSistema(HttpServletRequest request){
         HttpSession session = request.getSession();
         session.invalidate();

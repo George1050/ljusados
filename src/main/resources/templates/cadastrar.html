@@ -7,19 +7,43 @@
     <link rel="stylesheet" href='<c:url value="/static/css/style.css" />' />
 </head>
 <body>
-    <main>
+    <main class="bg-dark">
         <header>
             <nav class="navbar navbar-light bg-light">
-                <a class="navbar-brand" href="/adm">
-                    <h4><strong class="minha-fonte">Quincas</strong>Nordestino</h4>
-                </a>
+                <div class="d-flex justify-content-between">
+                    <a class="mr-3 navbar-brand" th:href="@{/adm}">
+                        <h4><strong class="text-danger">Quincas</strong>Nordestino</h4>
+                    </a>
+                    <a class="navbar-brand text-danger" th:href="@{/}">Visualizar Loja</a>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div th:if="${session.id} == null">
+                        <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Feather-core-user-x.svg/1200px-Feather-core-user-x.svg.png"
+                                width="40"
+                                height="40"
+                        >
+                        <br/>
+                        <a th:href="@{login}">Entrar</a>
+                    </div>
+                    <div th:if="${session.id} != null">
+                        <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Feather-core-user-check.svg/1200px-Feather-core-user-check.svg.png"
+                                width="40"
+                                height="40"
+                        >
+                        <br/>
+                        <a th:href="@{logout}">Sair</a>
+                    </div>
+                </div>
             </nav>
         </header>
         <section>
-            <div class="container meus-titulos">
-                <h1><strong>#</strong>Cadastrar Novos Produtos</h1>
-            </div>
             <div class="container">
+                <h2 class="text-white">
+                    <strong class="text-danger">#</strong>
+                    <strong> Produtos no Sistema</strong>
+                </h2>
                 <form class="" action="#" th:action="@{/salvar}" method="post" th:object="${produto}">
                     <div class="form-row">
                         <div class="col">
@@ -29,18 +53,18 @@
                                     type="text"
                                     name="nome"
                                     placeholder="Nome do Produto"
-                                    id="exampleInputEmail1"
-                                    aria-describedby="emailHelp"
                             />
+                            <p class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Mensagem</p>
                         </div>
                         <div class="col">
                             <input class="form-control" type="text" placeholder="Url da Imagem" th:field="*{urlImagem}"/>
+                            <p class="text-danger" th:if="${#fields.hasErrors('urlImagem')}" th:errors="*{urlImagem}">Mensagem</p>
                         </div>
                     </div>
                     <br />
                     <div class="form-row">
                         <div class="col">
-                            Estado:
+                            <strong class="text-light">Estado do Produto:</strong>
                             <select class="form-control" name="estado" th:field="*{estado}">
                                 <option value=""></option>
                                 <option value="ótimo">Ótimo</option>
@@ -48,9 +72,10 @@
                                 <option value="regular">Regular</option>
                                 <option value="ruim">Ruim</option>
                             </select>
+                            <p class="text-danger" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}">Mensagem</p>
                         </div>
                         <div class="col">
-                            Categoria:
+                            <strong class="text-light">Categoria:</strong>
                             <select class="form-control" name="categoria" th:field="*{categoria}">
                                 <option value=""></option>
                                 <option value="auto e peças">Auto e Peças</option>
@@ -59,10 +84,12 @@
                                 <option value="hobbies">Hobbies</option>
                                 <option value="escritório">Escritório</option>
                             </select>
+                            <p class="text-danger" th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}">Mensagem</p>
                         </div>
                         <div class="col">
-                            R$
+                            <strong class="text-light">R$</strong>
                             <input class="form-control" placeholder="Preço" type="text" th:field="*{preco}">
+                            <p class="text-danger" th:if="${#fields.hasErrors('preco')}" th:errors="*{preco}">Mensagem</p>
                         </div>
                     </div>
                     <br />
@@ -79,6 +106,14 @@
                 </form>
             </div>
         </section>
+        <footer class="bg-light">
+            <address class="text-center border-top mt-3">
+                <p>
+                    Criado por George Ravelly - <a href="https://github.com/George1050" target="blank">GitHub</a><br />
+                    <small style="font-size:0.9rem; color: gray">Imagens meramente ilustrativas!!!</small>
+                </p>
+            </address>
+        </footer>
     </main>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
