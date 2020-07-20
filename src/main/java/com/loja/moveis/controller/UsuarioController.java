@@ -1,10 +1,8 @@
 package com.loja.moveis.controller;
 
-import com.loja.moveis.model.Produto;
 import com.loja.moveis.model.Usuario;
 import com.loja.moveis.service.UsuarioService;
-import org.dom4j.rule.Mode;
-import org.hibernate.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,17 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Controller
 public class UsuarioController {
@@ -106,9 +99,14 @@ public class UsuarioController {
     @RequestMapping("/logout")
     public String logoutSistema(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
+
         Calendar c = Calendar.getInstance();
-        String data = "Ultimo Acesso"+c.getTime();
-        System.out.println(data);
+        String hora = c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE);
+        String dia = String.valueOf(c.get(Calendar.DAY_OF_MONTH));
+
+        Cookie ultSessao = new Cookie("ultSessao", hora+"/"+dia);
+        ultSessao.setMaxAge(((60*60)*24)*180);
+        response.addCookie(ultSessao);
         session.invalidate();
         return "redirect:/";
     }
